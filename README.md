@@ -17,4 +17,4 @@ A fast, lightweight real-time web translator supporting 20+ languages with auto-
 * **JavaScript**
 
 ---
-✨ *Developed with passion & innovation by **Nayeem***
+✨ *Developed with passion & innovation by ***N4YEEM***
