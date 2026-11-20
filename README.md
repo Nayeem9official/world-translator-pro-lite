@@ -2,7 +2,7 @@
 
 A fast, lightweight real-time web translator supporting 20+ languages with auto-detection, voice input, text-to-speech, and dark mode.
 
-🔗 **Live Demo:** [world-translator-pro-lite.netlify.app](https://netlify.app)
+🔗 **Live Demo:** [world-translator-pro-lite.netlify.app/](https://netlify.app)
 
 ## ✨ Key Features
 * **Auto-Detect Language:** Automatically detects the source language as you type.
