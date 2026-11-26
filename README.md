@@ -48,11 +48,11 @@
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
+   git clone Nayeem9official/world-translator-pro-lite.git
    ```
 2. **Navigate to the project folder:**
    ```bash
-   cd your-repo-name
+   cd world-translator-pro-lite
    ```
 3. **Open the app:**
    Simply double-click `index.html` to open it in any modern web browser, or run it using VS Code **Live Server**.
