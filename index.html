@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Global Translator Pro — AI-Powered Language Suite</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Translator Pro MAX — Language Super App</title>
 <style>
   :root {
     --bg-main: #f4f7fb;
@@ -850,6 +850,66 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+
+  /* PRO X tools */
+  .tool-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 22px;
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+  }
+  .tool-heading { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+  .tool-heading h2 { font-size:17px; font-weight:800; }
+  .tool-sub { color:var(--text-secondary); font-size:12px; margin-top:2px; }
+  .tool-input-row { display:flex; gap:8px; }
+  .tool-input {
+    min-width:0; flex:1; padding:12px 13px; border-radius:12px;
+    border:1px solid var(--border-color); background:var(--card-solid);
+    color:var(--text-primary); font:inherit; outline:none;
+  }
+  .tool-input:focus { border-color:var(--primary); }
+  .tool-result { margin-top:13px; padding:14px; border-radius:14px; background:var(--surface-subtle); color:var(--text-primary); min-height:54px; }
+  .tool-result .muted { color:var(--text-muted); }
+  .dict-phonetic { color:var(--primary); font-size:13px; margin:5px 0 10px; }
+  .dict-block { margin-top:10px; }
+  .dict-block strong { display:block; margin-bottom:4px; }
+  .dict-block ul { padding-left:20px; color:var(--text-secondary); }
+  .dict-block li { margin:3px 0; }
+  .utility-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .utility-btn {
+    border:1px solid var(--border-color); background:var(--card-solid); color:var(--text-primary);
+    padding:8px 11px; border-radius:10px; font-size:12px; font-weight:600; font-family:inherit; cursor:pointer;
+  }
+  .utility-btn:hover { border-color:var(--primary); color:var(--primary); }
+  .lang-search-wrap { padding:0 2px 10px; }
+  .lang-search {
+    width:100%; padding:9px 12px; border-radius:11px; border:1px solid var(--border-color);
+    background:var(--card-solid); color:var(--text-primary); font:inherit; font-size:13px;
+  }
+  .feature-note { color:var(--text-muted); font-size:11px; line-height:1.5; margin-top:9px; }
+  .status-line { font-size:12px; color:var(--text-secondary); margin-top:8px; min-height:18px; }
+  @media(max-width:520px) {
+    .tool-input-row { flex-direction:column; }
+    .tool-input-row .btn-main { width:100%; }
+    .utility-row > * { flex:1 1 auto; }
+  }
+
+
+  .pro-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .file-drop{border:1.5px dashed var(--border-color);border-radius:14px;padding:14px;background:var(--surface-subtle);display:flex;flex-direction:column;gap:9px}
+  .file-drop input{max-width:100%;color:var(--text-secondary);font-size:13px}
+  .progress-track{height:8px;background:var(--surface-subtle);border-radius:99px;overflow:hidden;margin-top:8px}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .2s}
+  .learning-word{font-size:25px;font-weight:800;letter-spacing:.2px;color:var(--primary);margin:8px 0 2px}
+  .learning-meaning{font-size:17px;font-weight:700}
+  .learning-example{font-size:13px;color:var(--text-secondary);margin-top:5px}
+  .quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+  .quiz-option{border:1px solid var(--border-color);border-radius:11px;padding:10px;background:var(--surface-subtle);color:var(--text-primary);font-weight:600;cursor:pointer;text-align:center}
+  .quiz-option:disabled{opacity:.8;cursor:default}
+  .tool-result:empty{display:none}
+  @media(max-width:560px){.pro-grid{grid-template-columns:1fr}.quiz-options{grid-template-columns:1fr 1fr}}
+
 </style>
 </head>
 <body>
@@ -860,8 +920,8 @@
     <div class="brand">
       <div class="brand-logo">文</div>
       <div class="brand-info">
-        <h1>Global Translator <span class="pro-pill">PRO</span></h1>
-        <p>Translate words, ideas and conversations</p>
+        <h1>Global Translator <span class="pro-pill">PRO MAX</span></h1>
+        <p>Your all-in-one language companion</p>
       </div>
     </div>
     <div class="header-actions">
@@ -870,6 +930,11 @@
       <button class="icon-btn" id="themeToggleBtn" title="Switch Theme" aria-label="Switch Theme">🌙</button>
     </div>
   </header>
+
+  <!-- Searchable language selector -->
+  <div class="lang-search-wrap">
+    <input id="languageSearch" class="lang-search" type="search" placeholder="🔎 Search languages / ভাষা খুঁজুন..." aria-label="Search languages">
+  </div>
 
   <!-- Language Selection Bar -->
   <section class="lang-bar" aria-label="Language Selection">
@@ -992,6 +1057,60 @@
     <button class="btn-main btn-secondary" id="clearBtn" type="button">✕ Clear</button>
   </div>
 
+
+  <!-- Dictionary -->
+  <section class="tool-card" aria-label="Dictionary">
+    <div class="tool-heading">
+      <div>
+        <h2>📖 Smart Dictionary</h2>
+        <div class="tool-sub">English word meanings, pronunciation, synonyms and examples</div>
+      </div>
+      <span class="pro-pill">TOOLS</span>
+    </div>
+    <div class="tool-input-row">
+      <input id="dictionaryInput" class="tool-input" type="text" maxlength="80" placeholder="Enter an English word...">
+      <button id="dictionaryBtn" class="btn-main btn-translate" type="button">Search</button>
+    </div>
+    <div id="dictionaryResult" class="tool-result" aria-live="polite"><span class="muted">A word's definition will appear here.</span></div>
+    <div class="feature-note">Dictionary data is fetched online from a public dictionary service. Availability may vary.</div>
+  </section>
+
+  <!-- Document and image translation -->
+  <section class="tool-card" aria-label="Image and document translator">
+    <div class="tool-heading"><div><h2>🖼️ Image &amp; PDF Translator</h2><div class="tool-sub">Extract text from an image or PDF, then send it to the translator</div></div><span class="pro-pill">PRO MAX</span></div>
+    <div class="pro-grid">
+      <div class="file-drop"><strong>📷 Image to text (OCR)</strong><input id="ocrFile" type="file" accept="image/*"><select id="ocrLang" class="tool-input"><option value="eng">English text</option><option value="ben">বাংলা text</option><option value="eng+ben">English + বাংলা</option></select><button class="btn-main btn-translate" id="ocrBtn" type="button">Extract image text</button></div>
+      <div class="file-drop"><strong>📄 PDF to text</strong><input id="pdfFile" type="file" accept="application/pdf,.pdf"><div class="muted">For text-based PDFs. Scanned PDFs may need OCR first.</div><button class="btn-main btn-translate" id="pdfBtn" type="button">Extract PDF text</button></div>
+    </div>
+    <div class="progress-track" aria-label="Processing progress"><div class="progress-fill" id="fileProgress"></div></div>
+    <div class="status-line" id="fileStatus" aria-live="polite">Files are processed in your browser. OCR may download its language data when first used.</div>
+  </section>
+
+  <!-- Language learning -->
+  <section class="tool-card" aria-label="Language learning">
+    <div class="tool-heading"><div><h2>🎓 Daily Language Learning</h2><div class="tool-sub">Learn useful English words and test your vocabulary</div></div><span class="pro-pill">LEARN</span></div>
+    <div id="dailyWordCard"><div class="muted">Loading today's word…</div></div>
+    <div class="utility-row"><button class="utility-btn" id="nextWordBtn" type="button">↻ New word</button><button class="utility-btn" id="speakWordBtn" type="button">🔊 Pronounce</button><button class="utility-btn" id="quizBtn" type="button">🧠 Start quiz</button></div>
+    <div id="quizArea" class="tool-result" aria-live="polite"></div>
+    <div class="feature-note">Vocabulary practice works offline after this page has loaded. Speech pronunciation depends on your browser.</div>
+  </section>
+
+  <!-- Backup and export -->
+  <section class="tool-card">
+    <div class="tool-heading">
+      <div>
+        <h2>🗂️ Your Translation Data</h2>
+        <div class="tool-sub">Back up or restore your recent and saved translations</div>
+      </div>
+    </div>
+    <div class="utility-row">
+      <button class="utility-btn" id="exportDataBtn" type="button">⬇ Export Backup</button>
+      <button class="utility-btn" id="importDataBtn" type="button">⬆ Restore Backup</button>
+      <input id="importDataFile" type="file" accept="application/json,.json" hidden>
+    </div>
+    <div id="backupStatus" class="status-line" aria-live="polite"></div>
+  </section>
+
   <!-- Recent & Saved Translations -->
   <section class="history-card">
     <div class="history-header">
@@ -1010,10 +1129,11 @@
   <footer class="footer-box" id="footerBox">
     <div class="dust-layer" id="dustLayer" aria-hidden="true"></div>
     <div class="footer-content">
-      <div class="footer-title">🌍 Global Translator Pro</div>
+      <div class="footer-title">🌍 Global Translator Pro MAX</div>
       <div class="footer-tagline">Breaking Language Barriers Worldwide</div>
       <div class="dev-badge">✨ <span class="grad-name">DEVELOPED BY N4YEEM</span></div>
       <div class="footer-sub">A Project Made with Passion &amp; Innovation</div>
+      <div class="feature-note">Translation, dictionary, OCR and PDF tools may require internet access to load their services. Translation still uses a public, unofficial endpoint and may occasionally be unavailable. AI-powered translation is not included without a secure translation API.</div>
       <div class="footer-copy">© 2026 N4YEEM. All Rights Reserved.</div>
     </div>
   </footer>
@@ -1023,27 +1143,26 @@
 
 <script>
   const LANG_NAMES = {
-    "auto": "Detect language",
-    "en": "English",
-    "bn": "Bengali",
-    "ar": "Arabic",
-    "hi": "Hindi",
-    "es": "Spanish",
-    "fr": "French",
-    "de": "German",
-    "ja": "Japanese",
-    "zh-CN": "Chinese",
-    "ko": "Korean",
-    "ru": "Russian",
-    "pt": "Portuguese",
-    "it": "Italian",
-    "tr": "Turkish",
-    "th": "Thai",
-    "ur": "Urdu",
-    "id": "Indonesian",
-    "vi": "Vietnamese",
-    "fa": "Persian",
-    "ms": "Malay"
+    "auto":"Detect language","af":"Afrikaans","sq":"Albanian","am":"Amharic","ar":"Arabic",
+    "hy":"Armenian","az":"Azerbaijani","eu":"Basque","be":"Belarusian","bn":"Bengali",
+    "bs":"Bosnian","bg":"Bulgarian","ca":"Catalan","ceb":"Cebuano","ny":"Chichewa",
+    "zh-CN":"Chinese (Simplified)","zh-TW":"Chinese (Traditional)","co":"Corsican","hr":"Croatian",
+    "cs":"Czech","da":"Danish","nl":"Dutch","en":"English","eo":"Esperanto","et":"Estonian",
+    "tl":"Filipino","fi":"Finnish","fr":"French","fy":"Frisian","gl":"Galician","ka":"Georgian",
+    "de":"German","el":"Greek","gu":"Gujarati","ht":"Haitian Creole","ha":"Hausa","haw":"Hawaiian",
+    "he":"Hebrew","hi":"Hindi","hmn":"Hmong","hu":"Hungarian","is":"Icelandic","ig":"Igbo",
+    "id":"Indonesian","ga":"Irish","it":"Italian","ja":"Japanese","jv":"Javanese","kn":"Kannada",
+    "kk":"Kazakh","km":"Khmer","rw":"Kinyarwanda","ko":"Korean","ku":"Kurdish","ky":"Kyrgyz",
+    "lo":"Lao","la":"Latin","lv":"Latvian","lt":"Lithuanian","lb":"Luxembourgish","mk":"Macedonian",
+    "mg":"Malagasy","ms":"Malay","ml":"Malayalam","mt":"Maltese","mi":"Maori","mr":"Marathi",
+    "mn":"Mongolian","my":"Myanmar (Burmese)","ne":"Nepali","no":"Norwegian","or":"Odia",
+    "ps":"Pashto","fa":"Persian","pl":"Polish","pt":"Portuguese","pa":"Punjabi","ro":"Romanian",
+    "ru":"Russian","sm":"Samoan","gd":"Scots Gaelic","sr":"Serbian","st":"Sesotho","sn":"Shona",
+    "sd":"Sindhi","si":"Sinhala","sk":"Slovak","sl":"Slovenian","so":"Somali","es":"Spanish",
+    "su":"Sundanese","sw":"Swahili","sv":"Swedish","tg":"Tajik","ta":"Tamil","tt":"Tatar",
+    "te":"Telugu","th":"Thai","tr":"Turkish","tk":"Turkmen","uk":"Ukrainian","ur":"Urdu",
+    "ug":"Uyghur","uz":"Uzbek","vi":"Vietnamese","cy":"Welsh","xh":"Xhosa","yi":"Yiddish",
+    "yo":"Yoruba","zu":"Zulu"
   };
 
   const SPEECH_LOCALES = {
@@ -1066,8 +1185,32 @@
     "id": "id-ID",
     "vi": "vi-VN",
     "fa": "fa-IR",
-    "ms": "ms-MY"
+    "ms": "ms-MY",
+    "af":"af-ZA","sq":"sq-AL","am":"am-ET","az":"az-AZ","eu":"eu-ES","bg":"bg-BG",
+    "ca":"ca-ES","hr":"hr-HR","cs":"cs-CZ","da":"da-DK","nl":"nl-NL","fi":"fi-FI",
+    "el":"el-GR","gu":"gu-IN","he":"he-IL","hu":"hu-HU","is":"is-IS","kn":"kn-IN",
+    "ml":"ml-IN","mr":"mr-IN","ne":"ne-NP","no":"nb-NO","pl":"pl-PL","ro":"ro-RO",
+    "sk":"sk-SK","sv":"sv-SE","ta":"ta-IN","te":"te-IN","uk":"uk-UA","cy":"cy-GB",
+    "zh-TW":"zh-TW"
   };
+
+  // Build both language menus from one shared, searchable language catalogue.
+  function populateLanguageMenus() {
+    const sourceDefault = sourceLangEl.value || "auto";
+    const targetDefault = targetLangEl.value || "bn";
+    [sourceLangEl, targetLangEl].forEach((select, index) => {
+      const current = index === 0 ? sourceDefault : targetDefault;
+      select.innerHTML = "";
+      Object.entries(LANG_NAMES).forEach(([code, name]) => {
+        if (index === 1 && code === "auto") return;
+        const option = document.createElement("option");
+        option.value = code;
+        option.textContent = name;
+        select.appendChild(option);
+      });
+      select.value = current;
+    });
+  }
 
   // DOM Elements
   const sourceLangEl = document.getElementById("sourceLang");
@@ -1096,14 +1239,23 @@
   const clearHistoryBtn = document.getElementById("clearHistoryBtn");
   const historyListEl = document.getElementById("historyList");
   const toastEl = document.getElementById("toast");
+  populateLanguageMenus();
 
   let currentTranslation = "";
   let currentTranslit = "";
   let currentFontSize = 18;
   let activeTab = "recent";
   let debounceTimer = null;
-  let recentItems = JSON.parse(localStorage.getItem("gtp_recent") || "[]");
-  let savedItems = JSON.parse(localStorage.getItem("gtp_saved") || "[]");
+  function readStoredList(key) {
+    try {
+      const value = JSON.parse(localStorage.getItem(key) || "[]");
+      return Array.isArray(value) ? value.filter(item => item && typeof item === "object") : [];
+    } catch { return []; }
+  }
+  let recentItems = readStoredList("gtp_recent");
+  let savedItems = readStoredList("gtp_saved");
+  let translationRequestId = 0;
+  let activeTranslationController = null;
 
   // Toast Helper
   function showToast(msg) {
@@ -1223,6 +1375,9 @@
 
     const sl = sourceLangEl.value;
     const tl = targetLangEl.value;
+    const requestId = ++translationRequestId;
+    if (activeTranslationController) activeTranslationController.abort();
+    activeTranslationController = new AbortController();
 
     translatedOutputEl.classList.remove("placeholder");
     translatedOutputEl.innerHTML = `<div class="loading-dots">Translating <span></span><span></span><span></span></div>`;
@@ -1230,9 +1385,10 @@
 
     try {
       const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${encodeURIComponent(sl)}&tl=${encodeURIComponent(tl)}&dt=t&dt=rm&q=${encodeURIComponent(text)}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Network error");
+      const res = await fetch(url, { signal: activeTranslationController.signal });
+      if (!res.ok) throw new Error(`Translation service returned ${res.status}`);
       const data = await res.json();
+      if (requestId !== translationRequestId) return;
 
       let translated = "";
       let translit = "";
@@ -1276,8 +1432,12 @@
         if (activeTab === "recent") renderHistory();
       }
     } catch (err) {
-      translatedOutputEl.textContent = "নেটওয়ার্ক সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।";
+      if (err && err.name === "AbortError") return;
+      if (requestId !== translationRequestId) return;
+      translatedOutputEl.textContent = "অনুবাদ করা যায়নি। ইন্টারনেট সংযোগ বা অনুবাদ সেবার অবস্থা পরীক্ষা করে আবার চেষ্টা করুন।";
       showToast("অনুবাদ ব্যর্থ হয়েছে");
+    } finally {
+      if (requestId === translationRequestId) activeTranslationController = null;
     }
   }
 
@@ -1433,7 +1593,7 @@
     } else {
       addHistoryItem(savedItems, "gtp_saved", {
         id: Date.now(),
-        from: LANG_NAMES[sourceLangEl.value],
+        from: (sourceLangEl.value === "auto" ? (detectedBadge.textContent.replace(/^Detected:\s*/, "") || "Detected language") : (LANG_NAMES[sourceLangEl.value] || sourceLangEl.value)),
         to: LANG_NAMES[targetLangEl.value],
         src,
         dst: currentTranslation
@@ -1525,7 +1685,270 @@
       .replace(/"/g, "&quot;");
   }
 
+
+  // Searchable language list
+  const languageSearchEl = document.getElementById("languageSearch");
+  languageSearchEl.addEventListener("input", () => {
+    const query = languageSearchEl.value.trim().toLowerCase();
+    [sourceLangEl, targetLangEl].forEach(select => {
+      Array.from(select.options).forEach(option => {
+        option.hidden = !!query && !option.textContent.toLowerCase().includes(query);
+      });
+    });
+  });
+
+  // Dictionary lookup (English dictionary API)
+  const dictionaryInput = document.getElementById("dictionaryInput");
+  const dictionaryBtn = document.getElementById("dictionaryBtn");
+  const dictionaryResult = document.getElementById("dictionaryResult");
+  async function lookupDictionary() {
+    const word = dictionaryInput.value.trim();
+    if (!word) { showToast("একটি English word লিখুন"); dictionaryInput.focus(); return; }
+    if (!/^[a-zA-Z][a-zA-Z'-]{0,79}$/.test(word)) {
+      dictionaryResult.textContent = "Please enter a single English word.";
+      return;
+    }
+    dictionaryBtn.disabled = true;
+    dictionaryBtn.textContent = "Searching…";
+    dictionaryResult.textContent = "Looking up the word…";
+    try {
+      const response = await fetch("https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURIComponent(word));
+      if (!response.ok) throw new Error("Word not found");
+      const data = await response.json();
+      const entry = data[0];
+      dictionaryResult.replaceChildren();
+      const title = document.createElement("strong");
+      title.textContent = entry.word || word;
+      dictionaryResult.appendChild(title);
+      const phonetic = document.createElement("div");
+      phonetic.className = "dict-phonetic";
+      phonetic.textContent = entry.phonetic || (entry.phonetics || []).find(p => p.text)?.text || "";
+      dictionaryResult.appendChild(phonetic);
+      (entry.meanings || []).slice(0, 5).forEach(meaning => {
+        const block = document.createElement("div");
+        block.className = "dict-block";
+        const part = document.createElement("strong");
+        part.textContent = meaning.partOfSpeech || "Meaning";
+        block.appendChild(part);
+        const list = document.createElement("ul");
+        (meaning.definitions || []).slice(0, 3).forEach(def => {
+          const li = document.createElement("li");
+          li.textContent = def.definition || "";
+          list.appendChild(li);
+          if (def.example) {
+            const example = document.createElement("div");
+            example.className = "tool-sub";
+            example.textContent = "Example: " + def.example;
+            block.appendChild(example);
+          }
+        });
+        block.appendChild(list);
+        const synonyms = (meaning.synonyms || []).slice(0, 8);
+        if (synonyms.length) {
+          const syn = document.createElement("div");
+          syn.className = "tool-sub";
+          syn.textContent = "Synonyms: " + synonyms.join(", ");
+          block.appendChild(syn);
+        }
+        dictionaryResult.appendChild(block);
+      });
+    } catch {
+      dictionaryResult.textContent = "Word not found or dictionary service unavailable. Try another word.";
+    } finally {
+      dictionaryBtn.disabled = false;
+      dictionaryBtn.textContent = "Search";
+    }
+  }
+  dictionaryBtn.addEventListener("click", lookupDictionary);
+  dictionaryInput.addEventListener("keydown", e => { if (e.key === "Enter") lookupDictionary(); });
+
+  // Export and restore translation data
+  const exportDataBtn = document.getElementById("exportDataBtn");
+  const importDataBtn = document.getElementById("importDataBtn");
+  const importDataFile = document.getElementById("importDataFile");
+  const backupStatus = document.getElementById("backupStatus");
+  exportDataBtn.addEventListener("click", () => {
+    const backup = {
+      app: "Global Translator Pro X",
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      recent: recentItems,
+      saved: savedItems
+    };
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "global-translator-pro-x-backup.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    backupStatus.textContent = "Backup file exported.";
+    showToast("ব্যাকআপ ডাউনলোড হয়েছে");
+  });
+  importDataBtn.addEventListener("click", () => importDataFile.click());
+  importDataFile.addEventListener("change", async () => {
+    const file = importDataFile.files && importDataFile.files[0];
+    if (!file) return;
+    try {
+      const backup = JSON.parse(await file.text());
+      if (!backup || !Array.isArray(backup.recent) || !Array.isArray(backup.saved)) {
+        throw new Error("Invalid backup");
+      }
+      const valid = list => list.filter(item =>
+        item && typeof item.src === "string" && typeof item.dst === "string"
+      ).slice(0, 100);
+      recentItems = valid(backup.recent);
+      savedItems = valid(backup.saved);
+      localStorage.setItem("gtp_recent", JSON.stringify(recentItems));
+      localStorage.setItem("gtp_saved", JSON.stringify(savedItems));
+      renderHistory();
+      updateSaveButtonState();
+      backupStatus.textContent = "Backup restored successfully.";
+      showToast("ব্যাকআপ রিস্টোর হয়েছে");
+    } catch {
+      backupStatus.textContent = "Could not restore this file. Please choose a valid Global Translator backup.";
+      showToast("ব্যাকআপ ফাইলটি সঠিক নয়");
+    } finally {
+      importDataFile.value = "";
+    }
+  });
+
   // Rising & Dissolving Dust Particle Generator inside Footer Box
+  // PRO MAX: local image OCR and PDF text extraction.
+  const fileStatusEl = document.getElementById('fileStatus');
+  const fileProgressEl = document.getElementById('fileProgress');
+  function setFileStatus(message, progress) {
+    fileStatusEl.textContent = message;
+    if (typeof progress === 'number') fileProgressEl.style.width = Math.max(0, Math.min(100, progress)) + '%';
+  }
+  function loadExternalScript(src, test) {
+    if (test()) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      let script = document.querySelector('script[data-pro-loader="' + src + '"]');
+      if (script && script.dataset.proLoaded === 'true' && !test()) {
+        script.remove(); script = null;
+      }
+      if (!script) {
+        script = document.createElement('script');
+        script.src = src; script.async = true; script.dataset.proLoader = src;
+        document.head.appendChild(script);
+      }
+      const timer = setTimeout(() => reject(new Error('Library loading timed out. Check your internet connection and try again.')), 30000);
+      script.addEventListener('load', () => {
+        clearTimeout(timer);
+        if (!test()) return reject(new Error('The library loaded but could not be initialized.'));
+        script.dataset.proLoaded = 'true'; resolve();
+      }, {once:true});
+      script.addEventListener('error', () => {
+        clearTimeout(timer); script.remove();
+        reject(new Error('Could not load a required library. Check your internet connection and try again.'));
+      }, {once:true});
+    });
+  }
+  document.getElementById('ocrBtn').addEventListener('click', async () => {
+    const file = document.getElementById('ocrFile').files[0];
+    if (!file) return showToast('Please choose an image first.');
+    if (!file.type.startsWith('image/')) return showToast('Please choose a valid image file.');
+    if (file.size > 12 * 1024 * 1024) return showToast('Image must be smaller than 12 MB.');
+    const btn = document.getElementById('ocrBtn'); btn.disabled = true;
+    let worker;
+    try {
+      setFileStatus('Loading OCR engine…', 5);
+      await loadExternalScript('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js', () => !!(window.Tesseract && window.Tesseract.createWorker));
+      const lang = document.getElementById('ocrLang').value;
+      worker = await window.Tesseract.createWorker(lang, 1, {
+        logger: m => {
+          const pct = m.progress ? Math.round(m.progress * 100) : 8;
+          setFileStatus((m.status || 'Reading image') + ' — ' + pct + '%', pct);
+        },
+        workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/worker.min.js',
+        corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5',
+        langPath: 'https://tessdata.projectnaptha.com/4.0.0'
+      });
+      const result = await worker.recognize(file);
+      const extractedText = (result.data.text || '').trim();
+      if (!extractedText) throw new Error('No readable text found. Try a clearer, well-lit image.');
+      sourceTextEl.value = extractedText.slice(0, 5000); updateCharCount(); resetOutput();
+      setFileStatus('Text extracted successfully. It has been placed in the translator.', 100);
+      sourceTextEl.scrollIntoView({behavior:'smooth',block:'center'}); showToast('Image text extracted.');
+    } catch (e) {
+      setFileStatus((e && e.message) || 'Image OCR failed. Check internet access and try again.', 0);
+    } finally {
+      if (worker) { try { await worker.terminate(); } catch (_) {} }
+      btn.disabled = false;
+    }
+  });
+  document.getElementById('pdfBtn').addEventListener('click', async () => {
+    const file = document.getElementById('pdfFile').files[0];
+    if (!file) return showToast('Please choose a PDF first.');
+    if (file.size > 15 * 1024 * 1024) return showToast('PDF must be smaller than 15 MB.');
+    const btn = document.getElementById('pdfBtn'); btn.disabled = true;
+    try {
+      setFileStatus('Loading PDF reader…', 5);
+      await loadExternalScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js', () => !!window.pdfjsLib);
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const bytes = await file.arrayBuffer();
+      const pdf = await window.pdfjsLib.getDocument({data:bytes, isEvalSupported:false, useWorkerFetch:false}).promise;
+      const maxPages = Math.min(pdf.numPages, 20); let extracted = '';
+      for (let pageNo=1; pageNo<=maxPages; pageNo++) {
+        const page = await pdf.getPage(pageNo); const content = await page.getTextContent();
+        extracted += content.items.map(item => item.str).join(' ') + '\n\n';
+        setFileStatus('Reading PDF page ' + pageNo + ' of ' + maxPages + '…', Math.round(pageNo/maxPages*95));
+        if (extracted.length >= 20000) break;
+      }
+      extracted = extracted.trim();
+      if (!extracted) throw new Error('This PDF has no selectable text. It is probably scanned; save its page as an image and use Image OCR.');
+      sourceTextEl.value = extracted.slice(0,5000); updateCharCount(); resetOutput();
+      setFileStatus('Extracted text from ' + maxPages + ' page(s). ' + (extracted.length > 5000 ? 'Only the first 5,000 characters were placed in the translator.' : 'Ready to translate.'),100);
+      sourceTextEl.scrollIntoView({behavior:'smooth',block:'center'}); showToast('PDF text extracted.');
+    } catch(e) { setFileStatus(e.message || 'PDF extraction failed.',0); }
+    finally { btn.disabled = false; }
+  });
+
+  // Small built-in vocabulary pack; daily word rotates by calendar day.
+  const vocab = [
+    ['Curious','কৌতূহলী','She is curious about the world.'],['Improve','উন্নতি করা','I want to improve my English.'],
+    ['Reliable','নির্ভরযোগ্য','Choose a reliable source.'],['Opportunity','সুযোগ','This is a great opportunity.'],
+    ['Courage','সাহস','Courage helps us face challenges.'],['Discover','আবিষ্কার করা','We discover something new every day.'],
+    ['Patient','ধৈর্যশীল','Be patient while learning.'],['Achieve','অর্জন করা','You can achieve your goals.'],
+    ['Honest','সৎ','An honest person tells the truth.'],['Knowledge','জ্ঞান','Knowledge is valuable.'],
+    ['Creative','সৃজনশীল','She has a creative idea.'],['Support','সহায়তা করা','Friends support each other.']
+  ];
+  let currentVocab = 0, quizIndex = 0, quizScore = 0;
+  const dailyWordCard = document.getElementById('dailyWordCard');
+  function showVocab(index) {
+    currentVocab = (index + vocab.length) % vocab.length;
+    const [word,meaning,example] = vocab[currentVocab];
+    dailyWordCard.innerHTML = '<div class="learning-word"></div><div class="learning-meaning"></div><div class="learning-example"></div>';
+    dailyWordCard.querySelector('.learning-word').textContent = word;
+    dailyWordCard.querySelector('.learning-meaning').textContent = meaning;
+    dailyWordCard.querySelector('.learning-example').textContent = 'Example: ' + example;
+  }
+  const dayIndex = Math.floor(Date.now()/86400000) % vocab.length;
+  showVocab(dayIndex);
+  document.getElementById('nextWordBtn').addEventListener('click', () => showVocab(currentVocab+1));
+  document.getElementById('speakWordBtn').addEventListener('click', () => {
+    if (!('speechSynthesis' in window)) return showToast('Speech is not supported in this browser.');
+    const utterance = new SpeechSynthesisUtterance(vocab[currentVocab][0]); utterance.lang='en-US'; speechSynthesis.cancel(); speechSynthesis.speak(utterance);
+  });
+  function renderQuiz() {
+    const area = document.getElementById('quizArea');
+    if (quizIndex >= 5) { area.textContent = 'Quiz complete! Your score: ' + quizScore + ' / 5'; return; }
+    const correct = vocab[(dayIndex+quizIndex)%vocab.length];
+    const wrongs = vocab.filter(v => v !== correct).slice((quizIndex*3)%7, (quizIndex*3)%7+3);
+    const options = [correct,...wrongs].sort((a,b) => a[1].localeCompare(b[1]));
+    area.innerHTML = '<strong>Q' + (quizIndex+1) + '/5: What does “' + correct[0] + '” mean?</strong><div class="quiz-options"></div>';
+    const grid = area.querySelector('.quiz-options');
+    options.forEach(option => { const b=document.createElement('button'); b.className='quiz-option'; b.type='button'; b.textContent=option[1]; b.addEventListener('click',()=>{
+      [...grid.children].forEach(x=>x.disabled=true);
+      if(option===correct){quizScore++;b.textContent+=' ✓';} else {b.textContent+=' ✕';}
+      setTimeout(()=>{quizIndex++;renderQuiz();},650);
+    }); grid.appendChild(b); });
+  }
+  document.getElementById('quizBtn').addEventListener('click',()=>{quizIndex=0;quizScore=0;renderQuiz();});
+
   function initDustParticles() {
     const dustLayer = document.getElementById("dustLayer");
     dustLayer.innerHTML = "";
